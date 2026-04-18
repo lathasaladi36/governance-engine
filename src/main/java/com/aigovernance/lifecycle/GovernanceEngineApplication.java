@@ -1,0 +1,13 @@
+package com.aigovernance.lifecycle;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class GovernanceEngineApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(GovernanceEngineApplication.class, args);
+    }
+
+}
