@@ -52,4 +52,9 @@ public interface DataSetRepository extends JpaRepository<DataSet, Integer> {
     @Transactional
     @Query(value = "DELETE FROM dataset WHERE source_id = (SELECT source_id FROM sourceofdata WHERE datasource_name = :sourceName)", nativeQuery = true)
     void deleteBySourceName(@Param("sourceName") String sourceName);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM dataset WHERE dataset_id = :id ", nativeQuery = true)
+    void deleteByDatasetid(Integer id);
 }

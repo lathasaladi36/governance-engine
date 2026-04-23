@@ -34,6 +34,11 @@ public class DataSetController {
         dataSetService.updateCleanup(id, size, desc);
         return "DataSet updated after cleanup.";
     }
+    @DeleteMapping("/{id}") // [cite: 420-431]
+    public String deleteByDataset(@PathVariable Integer id) {
+        dataSetService.removeByDataset(id);
+        return "Datasets with " + id + " deleted.";
+    }
 
     @DeleteMapping("/source/{name}") // [cite: 420-431]
     public String deleteBySource(@PathVariable String name) {

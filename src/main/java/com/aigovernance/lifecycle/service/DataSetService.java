@@ -54,6 +54,11 @@ public class DataSetService {
     }
 
     // DELETE: Remove all datasets linked to a specific source [cite: 420-431]
+    public void removeByDataset(Integer id) {
+        dataSetRepo.deleteByDatasetid(id);
+    }
+
+    // DELETE: Remove all datasets linked to a specific source [cite: 420-431]
     public void removeBySource(String sourceName) {
         dataSetRepo.deleteBySourceName(sourceName);
     }

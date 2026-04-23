@@ -1,5 +1,6 @@
 package com.aigovernance.lifecycle.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -33,11 +34,14 @@ public class DataSet {
 
     // FIX: Change Integer to the SourceOfData object
     // This MUST be named sourceOfData to match the mappedBy in SourceOfData.java
+    // Parent link to SourceOfData
     @ManyToOne
     @JoinColumn(name = "source_id")
+    @JsonBackReference("source-dataset") // Named
     private SourceOfData sourceOfData;
 
+    // Child link to Models
     @OneToMany(mappedBy = "dataSet")
-    @JsonManagedReference
+    @JsonManagedReference("dataset-model") // Named
     private List<Model> models;
 }

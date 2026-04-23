@@ -2,6 +2,7 @@ package com.aigovernance.lifecycle.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,12 +26,14 @@ public class Model {
     @Column(name = "model_performance")
     private String modelPerformance;
 
+    // Back link to DataSet
     @ManyToOne
     @JoinColumn(name = "dataset_id")
-    @JsonIgnore
-    private DataSet dataSet; // Renamed to fix mapping
+    @JsonBackReference("dataset-model") // Matches parent
+    private DataSet dataSet;
 
+    // Parent link to Deployments
     @OneToMany(mappedBy = "model")
-    @JsonBackReference
+    @JsonManagedReference("model-deployment") // Unique name
     private List<ModelDeployment> deployments;
 }

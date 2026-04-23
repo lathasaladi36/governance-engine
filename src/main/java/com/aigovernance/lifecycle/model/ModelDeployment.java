@@ -1,5 +1,6 @@
 package com.aigovernance.lifecycle.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,9 @@ public class ModelDeployment {
     @Column(name = "hosted_in") // Used for updates [cite: 400]
     private String hostedIn;
 
+    // Back link to Model
     @ManyToOne
     @JoinColumn(name = "model_id")
+    @JsonBackReference("model-deployment") // Matches parent
     private Model model;
 }
