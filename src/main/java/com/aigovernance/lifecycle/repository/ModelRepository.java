@@ -56,4 +56,13 @@ public interface ModelRepository extends JpaRepository<Model, Integer> {
     @Query(value = "DELETE FROM models m WHERE NOT EXISTS " +
             "(SELECT 1 FROM model_deployment md WHERE md.model_id = m.model_id)", nativeQuery = true)
     void deleteModelsWithNoDeploymentsQuery();
+    @Modifying
+    @Transactional
+    /* * 8. DELETE:Purpose: This query identifies and permanently removes all model records
+     * where the 'is_active' flag is set to FALSE.
+     * Governance Use Case: Automated cleanup of deprecated AI models to maintain
+     * registry integrity and reduce metadata clutter.
+     */
+    @Query(value = "DELETE FROM models WHERE is_active = FALSE", nativeQuery = true)
+    void deleteInactiveModelsNative();
 }

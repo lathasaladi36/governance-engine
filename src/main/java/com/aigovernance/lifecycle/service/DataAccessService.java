@@ -26,6 +26,10 @@ public class DataAccessService {
     public List<Map<String, Object>> getRules() { return accessRepo.findDatasetAccessRules(); }
     public List<Map<String, Object>> getActive() { return accessRepo.findActivePermissions(); }
 
+    public List<Map<String, Object>> getPermissionsReport() {
+        return accessRepo.findDetailedPermissionsNative();
+    }
+
     public void runExpiryCheck(LocalDate date) { accessRepo.expireAccessRules(date); }
     public void upgradeAccess(Integer dsId, Integer roleId) { accessRepo.updateAccessTypeByRole(dsId, roleId); }
     public void cleanupExpired() { accessRepo.deleteExpiredRules(); }

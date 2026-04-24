@@ -13,10 +13,10 @@ import java.util.Map;
 @Repository
 public interface DataSetRepository extends JpaRepository<DataSet, Integer> {
 
-    @Query(value = "SELECT * FROM dataset", nativeQuery = true)
+    @Query(value = "SELECT * FROM dataset", nativeQuery = true/*2*/)
     List<DataSet> findAllDatasetsQuery();
 
-    // 1. INSERT [cite: 40-47]
+    // 1. INSERT [cite: 40-47] 1
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO dataset (dataset_id, dataset_type, dataset_label, dataset_format, dataset_size, dataset_description, source_id) " +
@@ -25,27 +25,31 @@ public interface DataSetRepository extends JpaRepository<DataSet, Integer> {
                             @Param("format") String format, @Param("size") Double size,
                             @Param("desc") String desc, @Param("sourceId") Integer sourceId);
 
-    // 2. SELECT: List out all the datasets provided by each data source [cite: 96-103]
+    // 2. SELECT: List out all the datasets provided by each data source [cite: 96-103]/*3*/
     @Query(value = "SELECT s.datasource_name, d.dataset_id, d.dataset_label " +
             "FROM sourceofdata s JOIN dataset d ON s.source_id = d.source_id", nativeQuery = true)
     List<Map<String, Object>> findDatasetsBySource();
 
-    // 3. SELECT: List access rules for each dataset [cite: 104-112]
+    // 3. SELECT: List access rules for each dataset [cite: 104-112]/*4*/
     @Query(value = "SELECT da.access_id, da.access_type, d.dataset_id, d.dataset_label " +
             "FROM dataaccess da JOIN dataset d ON da.dataset_id = d.dataset_id", nativeQuery = true)
     List<Map<String, Object>> findDatasetAccessRules();
 
-    // 4. UPDATE: Description and size following clean up [cite: 315-323]
+    // 4. UPDATE: Description and size following clean up [cite: 315-323]/*5*/
     @Modifying
     @Transactional
     @Query(value = "UPDATE dataset SET dataset_size = :size, dataset_description = :desc WHERE dataset_id = :id", nativeQuery = true)
     void updateCleanupQuery(@Param("id") Integer id, @Param("size") Double size, @Param("desc") String desc);
 
-    // 5. UPDATE: Normalize format names [cite: 331-339]
+    // 5. UPDATE: Normalize format names [cite: 331-339] /*6*/
     @Modifying
     @Transactional
     @Query(value = "UPDATE dataset SET dataset_format = 'parquet' WHERE LOWER(dataset_format) IN ('pq', 'parq', 'parquet')", nativeQuery = true)
     void normalizeFormats();
+    /*Change dataset’s upstream source*/
+    @Modifying
+    @Query(value = "UPDATE dataset SET source_id = :sourceId WHERE dataset_id = :datasetId", nativeQuery = true)
+    void updateSourceIdNative(@Param("datasetId") Integer datasetId, @Param("sourceId") Integer sourceId);
 
     // 6. DELETE: Delete all datasets from a particular source [cite: 420-431]
     @Modifying

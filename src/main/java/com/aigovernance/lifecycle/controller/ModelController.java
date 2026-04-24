@@ -44,10 +44,24 @@ public class ModelController {
         modelService.updatePerf(id, perf);
         return "Model performance updated.";
     }
+    @PutMapping("/{id}/type") // UPDATE: [cite: 382-388]
+    public String updateType(@PathVariable Integer id, @RequestParam String type) {
+        modelService.updateType(id, type);
+        return "Model type updated.";
+    }
 
     @DeleteMapping("/cleanup") // DELETE Conditional: [cite: 432-443]
     public String cleanup() {
         modelService.cleanupModels();
         return "Models with no deployment history removed.";
+    }
+    @DeleteMapping("/cleanup-inactive")
+    public ResponseEntity<String> cleanupInactiveModels() {
+        try {
+            modelService.purgeInactiveModels();
+            return ResponseEntity.ok("All inactive models have been successfully deleted from the registry.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error during model cleanup: " + e.getMessage());
+        }
     }
 }

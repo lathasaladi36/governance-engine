@@ -37,6 +37,16 @@ public class RoleController {
         return "Role updated";
     }
 
+    @GetMapping("/access-report")
+    public ResponseEntity<List<Map<String, Object>>> getAccessReport() {
+        try {
+            List<Map<String, Object>> report = roleService.getUserDatasetAccessReport();
+            return ResponseEntity.ok(report);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
     @DeleteMapping("/cleanup") public String cleanup() { roleService.cleanupRoles(); return "Unused roles deleted"; } // [cite: 490-501]
     @DeleteMapping("/name/{name}") public String delete(@PathVariable String name) { roleService.removeRole(name); return "Role deleted"; } // [cite: 502-506]
 }

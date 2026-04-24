@@ -24,7 +24,9 @@ public class RoleService {
     public List<Map<String, Object>> getActivePermissions() { return roleRepo.findActiveRolePermissions(); }
     public List<Map<String, Object>> getRoleStats() { return roleRepo.findRoleCountsPerDataset(); }
     public List<Map<String, Object>> getPrivilegedUsers() { return roleRepo.findPrivilegedUsers(); }
-
+    public List<Map<String, Object>> getUserDatasetAccessReport() {
+        return roleRepo.findUserDatasetAccess();
+    }
     public void updateRole(Integer id, String name, String desc) { roleRepo.updateRoleQuery(id, name, desc); }
     public void cleanupRoles() { roleRepo.deleteUnusedRolesQuery(); }
     public void removeRole(String name) { roleRepo.deleteRoleByNameQuery(name); }

@@ -27,6 +27,15 @@ public interface DataAccessRepository extends JpaRepository<DataAccess, Integer>
     @Query(value = "SELECT da.access_id, da.access_type, da.access_status, d.dataset_id, d.dataset_type " +
             "FROM dataaccess da JOIN dataset d ON da.dataset_id = d.dataset_id", nativeQuery = true)
     List<Map<String, Object>> findDatasetAccessRules();
+/*List of particular users have access to which datasets*/
+    @Query(value = "SELECT u.username, r.role_name, d.dataset_label as dataset_name, " +
+            "da.access_type, da.access_status " +
+            "FROM dataaccess da " +
+            "JOIN role r ON da.role_id = r.role_id " +
+            "JOIN user_account u ON u.role_id = r.role_id " +
+            "JOIN dataset d ON da.dataset_id = d.dataset_id",
+            nativeQuery = true)
+    List<Map<String, Object>> findDetailedPermissionsNative();
 
     // 3. SELECT: Active roles of Datasets permissions [cite: 188-201]
     @Query(value = "SELECT r.role_name, d.dataset_type, da.permission, da.access_status " +

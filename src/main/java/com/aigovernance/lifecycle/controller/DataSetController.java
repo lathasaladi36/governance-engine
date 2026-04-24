@@ -34,6 +34,18 @@ public class DataSetController {
         dataSetService.updateCleanup(id, size, desc);
         return "DataSet updated after cleanup.";
     }
+    @PutMapping("/{id}/source")
+    public ResponseEntity<String> updateUpstreamSource(
+            @PathVariable Integer id,
+            @RequestParam Integer newSourceId) {
+
+        try {
+            dataSetService.changeUpstreamSource(id, newSourceId);
+            return ResponseEntity.ok("Dataset " + id + " upstream source changed to " + newSourceId);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("Error updating source: " + e.getMessage());
+        }
+    }
     @DeleteMapping("/{id}") // [cite: 420-431]
     public String deleteByDataset(@PathVariable Integer id) {
         dataSetService.removeByDataset(id);

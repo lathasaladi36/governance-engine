@@ -27,6 +27,10 @@ public class DataAccessController {
 
     @GetMapping("/rules") public List<Map<String, Object>> getRules() { return accessService.getRules(); } // [cite: 104-112]
     @GetMapping("/active") public List<Map<String, Object>> getActive() { return accessService.getActive(); } // [cite: 188-201]
+    @GetMapping("/permissions-report")
+    public ResponseEntity<List<Map<String, Object>>> getPermissionsReport() {
+        return ResponseEntity.ok(accessService.getPermissionsReport());
+    }
 
     @PutMapping("/expire-check") // UPDATE: [cite: 365-373]
     public String expire(@RequestParam String date) {

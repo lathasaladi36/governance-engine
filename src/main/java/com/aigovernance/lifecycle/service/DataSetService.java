@@ -53,6 +53,11 @@ public class DataSetService {
         dataSetRepo.normalizeFormats();
     }
 
+
+    public void changeUpstreamSource(Integer datasetId, Integer sourceId) {
+        // Calling the repository method to run the UPDATE
+        dataSetRepo.updateSourceIdNative(datasetId, sourceId);
+    }
     // DELETE: Remove all datasets linked to a specific source [cite: 420-431]
     public void removeByDataset(Integer id) {
         dataSetRepo.deleteByDatasetid(id);

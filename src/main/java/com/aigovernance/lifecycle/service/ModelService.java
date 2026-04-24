@@ -33,4 +33,7 @@ public class ModelService {
     public void updatePerf(Integer id, String perf) { modelRepo.updatePerformanceQuery(id, perf); }
     public void updateType(Integer id, String type) { modelRepo.updateModelTypeQuery(id, type); }
     public void cleanupModels() { modelRepo.deleteModelsWithNoDeploymentsQuery(); }
+    public void purgeInactiveModels() {
+        modelRepo.deleteInactiveModelsNative();
+    }
 }
